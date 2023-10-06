@@ -2,34 +2,34 @@
 # Fabfile to create and distribute an archive to a web server.
 import os.path
 from datetime import datetime
-from fabric.api import env
-from fabric.api import local
-from fabric.api import put
-from fabric.api import run
+from fabric.api import env, local, put, run
 
-env.hosts = ["104.196.168.90", "35.196.46.172"]
+# Define the IP addresses of the remote hosts
+env.hosts = ["54.90.44.16", "54.157.176.138"]
 
-
+# Function to create a tar gzipped archive of the directory "web_static"
 def do_pack():
     """Create a tar gzipped archive of the directory web_static."""
     dt = datetime.utcnow()
-    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year,
-                                                         dt.month,
-                                                         dt.day,
-                                                         dt.hour,
-                                                         dt.minute,
-                                                         dt.second)
+    
+    # Define the filename for the archive using a timestamp
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+
+    # Create the "versions" directory if it doesn't exist
     if os.path.isdir("versions") is False:
         if local("mkdir -p versions").failed is True:
             return None
+
+     # Create the tar gzipped archive
     if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
+
+     # Return the path to the created archive
     return file
 
 
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
-
     Args:
         archive_path (str): The path of the archive to distribute.
     Returns:
