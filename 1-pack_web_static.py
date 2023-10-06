@@ -6,7 +6,7 @@ from fabric.api import local
 
 
 def do_pack():
-    """Create a tar gzipped archive of the directory web_static."""
+    """ Compresses the contents of web_static folder into a .tgz archive."""
     dt = datetime.utcnow()
     file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
     if os.path.isdir("versions") is False:
