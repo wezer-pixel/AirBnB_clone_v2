@@ -7,6 +7,16 @@ from fabric.api import run
 
 env.hosts = ["54.90.44.16", "54.157.176.138"]
 
+def do_pack():
+    """ Compresses the contents of web_static folder into a .tgz archive."""
+    dt = datetime.utcnow()
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+    if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
+        return None
+    return file
 
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
