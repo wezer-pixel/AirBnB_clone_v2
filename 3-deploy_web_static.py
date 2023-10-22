@@ -2,7 +2,11 @@
 # Fabfile to create and distribute an archive to a web server.
 import os.path
 from datetime import datetime
-from fabric.api import env, local, put, run
+from fabric.api import env
+from fabric.api import local
+from fabric.api import put
+from fabric.api import run
+
 # Define the IP addresses of the remote hosts
 env.hosts = ["54.90.44.16", "54.157.176.138"]
 
@@ -26,7 +30,6 @@ def do_pack():
 
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
-
     Args:
         archive_path (str): The path of the archive to distribute.
     Returns:
